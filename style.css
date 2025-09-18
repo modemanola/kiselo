@@ -1,0 +1,43 @@
+/* Lagana, svetlija tema */
+:root{
+  --card-bg: #ffffff;
+  --body-bg: #f6f7fb;
+}
+
+body{
+  background: var(--body-bg);
+}
+
+.card.result-card{
+  border: 1px solid rgba(0,0,0,0.06);
+  background: var(--card-bg);
+  border-radius: 1rem;
+}
+
+.card-header{
+  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1rem !important;
+}
+
+.card-footer{
+  border-bottom-left-radius: 1rem !important;
+  border-bottom-right-radius: 1rem !important;
+}
+
+.label{
+  font-weight: 600;
+}
+
+#rezultati .card-title{
+  font-size: 1.05rem;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
