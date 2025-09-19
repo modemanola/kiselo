@@ -92,9 +92,15 @@
 function exportToPDF() {
   window.scrollTo(0, 0);
 
-  // Ulazi (kao u primeru)
-  const tezina = parseFloat(document.getElementById("tezina").value) || 0;
-  const hidratacija = parseFloat(document.getElementById("hidratacija").value) || 0;
+  const tezina = parseFloat(document.getElementById("tezina").value);
+  const hidratacija = parseFloat(document.getElementById("hidratacija").value);
+
+  // ✅ Provera obaveznih polja
+  if (!tezina || !hidratacija || tezina <= 0 || hidratacija <= 0) {
+    alert("Molimo unesite Težinu i Hidrataciju pre izvoza u PDF.");
+    return; // prekidamo dalje izvođenje
+  }
+
   const scaldChecked = document.getElementById("scald").checked;
 
   // Rezultati sa ekrana
@@ -112,7 +118,6 @@ function exportToPDF() {
   const j6 = document.getElementById("j6").innerText || "—"; // Brašno u zamesu
   const j5 = document.getElementById("j5").innerText || "—"; // Voda u zamesu
 
-  // Sadržaj za PDF (kao u tvom primeru punimo #print-area)
   const printArea = document.getElementById("print-area");
 
   // Sastojci (lista) - po tvom formatu
@@ -135,51 +140,52 @@ function exportToPDF() {
     : "1) Pomešaj sastojke, autoliza (po želji), dodaj so, fermentacija, oblikovanje i pečenje.";
 
   printArea.innerHTML = `
-  <h2 style="margin-bottom:0">Recept za testo</h2>
-  <p style="margin-top:6px;color:#666">Generisano iz Kalkulatora za testo</p>
+    <h2 style="margin-bottom:0">Recept za testo</h2>
+    <p style="margin-top:6px;color:#666">Generisano iz Kalkulatora za testo</p>
 
-  <p><strong>Težina hleba:</strong> ${tezina} g</p>
-  <p><strong>Hidratacija:</strong> ${hidratacija}%</p>
-  <p><strong>Scald:</strong> ${scaldChecked ? "✅ Da" : "❌ Ne"}</p>
+    <p><strong>Težina hleba:</strong> ${tezina} g</p>
+    <p><strong>Hidratacija:</strong> ${hidratacija}%</p>
+    <p><strong>Scald:</strong> ${scaldChecked ? "✅ Da" : "❌ Ne"}</p>
 
-  <h4>Osnovni proračuni</h4>
-  <ul>
-    <li>Brašno: ${g6} g</li>
-    <li>Voda: ${g5} g</li>
-    <li>So: ${g7} g</li>
-  </ul>
-
-  <h4>Podizač (Albert)</h4>
-  <ul>
-    <li>Albert (ukupno): ${h4} g</li>
-    <li>Voda u Albertu: ${h5} g</li>
-    <li>Brašno u Albertu: ${h6} g</li>
-  </ul>
-
-  ${scaldChecked
-      ? `
-    <h4>Scald</h4>
+    <h4>Osnovni proračuni</h4>
     <ul>
-      <li>Brašno za scald: ${i6} g</li>
-      <li>Voda za scald: ${i5} g</li>
+      <li>Brašno: ${g6} g</li>
+      <li>Voda: ${g5} g</li>
+      <li>So: ${g7} g</li>
     </ul>
-  `
-      : ""
+
+    <h4>Podizač (Albert)</h4>
+    <ul>
+      <li>Albert (ukupno): ${h4} g</li>
+      <li>Voda u Albertu: ${h5} g</li>
+      <li>Brašno u Albertu: ${h6} g</li>
+    </ul>
+
+    ${
+      scaldChecked
+        ? `
+      <h4>Scald</h4>
+      <ul>
+        <li>Brašno za scald: ${i6} g</li>
+        <li>Voda za scald: ${i5} g</li>
+      </ul>
+    `
+        : ""
     }
 
-  <h4>Zames</h4>
-  <ul>
-    <li>Brašno u zamesu: ${j6} g</li>
-    <li>Voda u zamesu: ${j5} g</li>
-  </ul>
+    <h4>Zames</h4>
+    <ul>
+      <li>Brašno u zamesu: ${j6} g</li>
+      <li>Voda u zamesu: ${j5} g</li>
+      <li>So: ${g7} g</li>
+    </ul>
 
-  <!-- <h4>Uputstvo za pripremu</h4>
-  <p>${uputstvoHTML}</p>-->
-`;
+    <!-- <h4>Uputstvo za pripremu</h4>
+    <p>${uputstvoHTML}</p> -->
+  `;
 
   printArea.style.display = "block";
 
-  // html2pdf opcije (preuzeto iz tvog primera)
   const opt = {
     margin: 40,
     filename: "recept-za-testo.pdf",
